@@ -1,28 +1,25 @@
-package i_pilha_dinamica;
-import i_arvore_binaria.Arvore;
-import i_fila_dinamica.FilaDinamica;
-import i_lista_encadeada_dupla.ListaDupla;
+package i_arvore_binaria;
+
 import java.util.Scanner;
 
-
-public class TestaPilha {
+public class TestaArvore {
     public static void main(String[] args){
         Scanner ler = new Scanner(System.in);
-        PilhaDinamica pilha = new PilhaDinamica();
+        Arvore<String> arvore = new Arvore<String>();
         String Caminho = "src/entrada/Entrada.txt";
-        ArquivoPilha.Start(Caminho, pilha);
+        Arquivo.Start(Caminho, arvore);
         String op;
     
 do{
     System.out.printf("\n\n");
-    System.out.printf("    *=======================  Pilha   =========================*\n");
+    System.out.printf("    *=======================  Arvore binaria   =========================*\n");
     System.out.printf("    |                                                                |\n");
     System.out.printf("    |                                                                |\n");
     System.out.printf("    |         A - INSERIR                   B - REMOVER              |\n");
     System.out.printf("    |                                                                |\n");
     System.out.printf("    |         C - BUSCAR                    D - IMPRIMIR             |\n");
     System.out.printf("    |                                                                |\n");
-    System.out.printf("    |         E - VOLTAR                                             |\n");
+    System.out.printf("    |                                                                |\n");
     System.out.printf("    |                                                                |\n");
     System.out.printf("    |                        S - SAIR                                |\n");
     System.out.printf("    |                                                                |\n");
@@ -36,18 +33,20 @@ do{
                 do{
                     System.out.printf("\n");
                     System.out.printf("----- INSERIR DADOS -----");
-                    System.out.printf("C - Continuar");
+                    System.out.printf("\n");
+                    System.out.printf("C - CONTINUARR");
                     System.out.printf("\n");                    
                     System.out.printf("D - VOLTAR");
                     System.out.printf("\n");
                     System.out.printf("\n");
-                    System.out.printf("Digite a opcao: ");
+                    System.out.printf("Digite a opção: ");
                     op = ler.next().toUpperCase();
                     
               if(op.contains("C")){
                 System.out.println("Digite um nome:");
                 String dados = ler.next();
-                pilha.inserir_dado_final(dados, Caminho);
+                arvore.adicionar("Name:"+dados);
+                Arquivo.inserirDado(Caminho, dados);
                 System.out.println("Inserido com sucesso!");
               }
        
@@ -68,8 +67,11 @@ do{
                     op = ler.next().toUpperCase();
                     
               if(op.contains("C")){
-                 //lista.remover_lista_final(); 
-                 ArquivoPilha.remover(Caminho, pilha); 
+                 System.out.println("Digite um nome que deseja excluir da lista abaixo:");
+                 arvore.emOrdem(arvore.getRaiz());
+                 String remove = ler.next();
+                 arvore.remover("Name:"+remove);
+                 Arquivo.removerOrdenado(Caminho, remove);
               }
        
               }while(op.contains("D")==false);
@@ -80,7 +82,7 @@ do{
                     System.out.printf("\n");
                     System.out.printf("----- BUSCAR DADOS -----");
                     System.out.printf("\n");
-                    System.out.printf("A - ACESSAR O TOPO");
+                    System.out.printf("A - BUSCAR Arvore");
                     System.out.printf("\n");
                     System.out.printf("B - VOLTAR");
                     System.out.printf("\n");
@@ -89,7 +91,10 @@ do{
                     op = ler.next().toUpperCase();
                     
               if(op.contains("A")){
-                System.out.println(pilha.acessar_topo_pilha());
+                System.out.println("Digite o nome da pessoa:");
+                String busca = ler.next();
+                if(arvore.buscar(arvore.getRaiz(),busca)==0)System.out.println("Pessoa não encontrada");
+               // fila.buscarFila(busca);   
               }
 
               }while(op.contains("B")==false);
@@ -100,8 +105,10 @@ do{
                     System.out.printf("\n");
                     System.out.printf("----- IMPRIMIR DADOS -----");
                     System.out.printf("\n");
-                    System.out.printf("A - IMPRIMIR LISTA");
+                    System.out.printf("A - IMPRIMIR ARVORE");
                     System.out.printf("\n");
+                    System.out.printf("D - QUANTIDADE DE NÓS");
+                    System.out.printf("\n");                    
                     System.out.printf("B - VOLTAR");
                     System.out.printf("\n");
                     System.out.printf("\n");
@@ -109,9 +116,11 @@ do{
                     op = ler.next().toUpperCase();
                     
               if(op.contains("A")){
-                pilha.exibir_pilha();
+               arvore.emOrdem(arvore.getRaiz());
               }
-
+              if(op.contains("D")){
+               System.out.println("Quantidade de nós: "+arvore.getTamanho());
+              }
               }while(op.contains("B")==false);
             break;    
               }

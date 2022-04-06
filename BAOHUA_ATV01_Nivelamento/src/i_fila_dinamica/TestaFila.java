@@ -1,47 +1,29 @@
 package i_fila_dinamica;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class TestaFila {
     public static void main(String[] args) {
         
+        try{
         FilaDinamica fila = new FilaDinamica();
-        //INSERIR ELEMENTOS
-        fila.inserirFila("1");
-        fila.inserirFila("2");
-        fila.inserirFila("3");
-        fila.inserirFila("4");
-        fila.inserirFila("5");
-        /*
-        //BUSCAR ELEMENTO INEXISTENTE
-        fila.buscarFila("4");
-        fila.buscarFila("2");
-        //IMPRIMIR A FILA CRIADA
-        fila.imprimirFila();
-        //REMOVER ALGUNS ELEMENTOS
-        fila.removerElemento();
-        fila.removerElemento();
-        fila.removerElemento();
-        */
+        
         //CAMINHO PARA O ARQUIVO
         String entradaFila = "src/entrada/EntradaFila.txt";
-        //File file = new File("src/entrada/EntradaFila.txt");
-        /*
-        //Criar Arquivo
-        String conteudo = "Something like that";
-        if(ArquivoFila.Write(entradaFila, conteudo)){
-        System.out.println("Arquivo salvo");
-        } else {
-        System.out.println("Erro no salvamento");
-        }
-        */
+        
         //Ler Arquivo
         String conteudo = ArquivoFila.Read(entradaFila);
         if(conteudo.isEmpty()){
             System.err.println("Erro ao ler arquivo");
         } else {
             System.out.println(conteudo);
-        }
+        }    
+        
+        //System.out.println(fila);
+        
+        
         //Menu
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -61,7 +43,8 @@ public class TestaFila {
                     case 1 -> {
                         System.out.println("Digite o elemento que deseja inserir: ");
                         String novoElemento = sc.nextLine();
-                        fila.inserirFila(novoElemento);
+                        ArquivoFila.InserirFinal(entradaFila, fila);
+                        //fila.inserirFila(novoElemento);
                         fila.imprimirFila();
                         break;
                     }
@@ -85,12 +68,16 @@ public class TestaFila {
                     }
                     default -> {
                             System.exit(0);
-                            }
+                    }
                 }
             } else {
                 System.out.println("\n\tOpção inválida\n");
             }
         }while(opcao != 0);
+        sc.close();
         
+        }catch(Exception exc){
+            System.err.println("ERRO: " + exc + "\nDica: Não insira caracteres no lugar de números.");
+        }
     }
 }

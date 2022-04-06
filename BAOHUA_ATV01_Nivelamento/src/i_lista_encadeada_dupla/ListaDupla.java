@@ -4,6 +4,10 @@ public class ListaDupla {
     No inicio;
     No fim;
     int tamanho;
+
+    public int getTamanho() {
+        return tamanho;
+    }
     int posicao;
 
     public int getPosicao() {
@@ -61,10 +65,15 @@ public class ListaDupla {
         tamanho++;
    }
     
-       public void inserir_lista(String dados,String caminho){
+    public void inserir_dado_final(String dados,String caminho){
         //Instanciando o no.
-        Arquivo.Write(caminho, dados);
-        inserir_lista_final(dados);
+        Arquivo.inserirDadoFinal(caminho, dados);
+        inserir_lista_final("Name:"+dados);
+   }
+        public void inserir_dado_inicio(String dados,String caminho){
+        //Instanciando o no.
+        Arquivo.inserirDadoInicio(caminho, dados);
+        inserir_lista_inicio("Name:"+dados);
    }
     
     public void inserir_lista_final(String dados){
@@ -125,21 +134,17 @@ public class ListaDupla {
     }
     
     public String remover_lista_final(){
-        //Verificando se a lista está vazia, então se a lista está vazia, retorna nulo.
-        if(fim == null){
+        //Se o indice for menor que zero ou maior igual ao tamanho ou inicio igual a nulo, então retorna nulo.
+        if(fim==null){
             return null;
         }
-        //Salvando a informação do fim.
         String out = fim.dados;
-        //Se o fim for diferente de nulo, então meu próximo do fim é igual a nulo.
-        if(fim != null){
-            fim.proximo = null;
+        fim= fim.anterior;
+        if(fim!= null){
+            fim.proximo=null;
+        }else{
+            inicio=null;
         }
-        //Senão, meu inicio vai ser igual a nulo.
-        else{
-            inicio = null;
-        }
-        //Decremento a quantidade de elementos da lista.
         tamanho--;
         return out;
     }
@@ -171,25 +176,24 @@ public class ListaDupla {
         return local.dados;
     }
     
-    public int busca_lista_id(int id){
+    public int busca_lista_id(String nome){
         if(inicio == null){
             return 0;
         }
-        No no = new No();
-        while(no != null){
-            no = no.proximo;
-            if(no == null){
-                return 0;
-            }
-            else{
-             
-               return 1;
-            }
-        }
+        No ler_no = new No();
+            ler_no= inicio;
+       do{
+           if(ler_no.dados.toLowerCase().contains(nome.toLowerCase())){
+               System.out.println("Achei a pessoa: "+ler_no.dados);
+              return 1;
+           }
+            ler_no = ler_no.proximo;
+        }while(ler_no != null);
+       System.out.print("Pessoa não encontrada");
        return 0;
     }
     
-    public int imprimir_lista(String dados){
+    public int imprimir_lista(){
         //Se a lista estiver vazia, então emite mensagem: "Lista vazia";
         if(inicio == null){
             System.out.println("Lista vazia\n");
@@ -197,10 +201,11 @@ public class ListaDupla {
         }
             //Instanciando um novo no.
             No ler_no = new No();
+            ler_no= inicio;
             System.out.printf("-------------\n");
             //Imprimindo os dados
        do{
-            System.out.printf("Dado: %s\n" + ler_no.dados);
+            System.out.printf( ler_no.dados);
             System.out.printf("-------------\n");
             ler_no = ler_no.proximo;
          //Enquanto o no for diferente de nulo, então imprima os próximos dados.
@@ -218,3 +223,5 @@ public class ListaDupla {
        return str;
     }
 }
+
+

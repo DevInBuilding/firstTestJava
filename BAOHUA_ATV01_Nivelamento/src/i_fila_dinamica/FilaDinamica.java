@@ -1,5 +1,8 @@
 package i_fila_dinamica;
 
+import java.io.File;
+import java.io.IOException;
+
 public class FilaDinamica {
     No inicio;
     No fim;
@@ -11,30 +14,9 @@ public class FilaDinamica {
         tamanho = 0;
     }
     
-    /* //Não vejo utilidade neste método
-    public String verificarFim(){
-        if(fim == null){
-            return null;
-        }
-        return fim.elemento;
-    }
-    */
-    
     public boolean filaVazia(){
         return inicio == null;
     }
-    /*
-    public void inserirFila(String elemento){
-        No novoNo = new No();
-        novoNo.elemento = elemento;
-        novoNo.proximo = inicio;
-        inicio = novoNo;
-        if(tamanho == 0){
-            fim = novoNo;
-        }
-        tamanho++;
-    }
-    */
     
     public void inserirFila(String elemento){
         No novoNo = new No();
@@ -49,61 +31,39 @@ public class FilaDinamica {
         tamanho++;
     }
     
-    //Remove os elementos de trás pra frente -> lista
-    /*
-    public String removerFila(){
-        if(filaVazia()){
-            return null;
-        }
-        String info = fim.elemento;
-        if(inicio == fim){
-            inicio = null;
-            fim = null;
-        } else {
-            No atual = inicio;
-            while(atual != fim){
-                atual = atual.proximo;
-            }
-            fim = atual;
-            fim.proximo = null;
-        }
-        tamanho--;
-        return info;
-    }
-    */
-    
     public void removerElemento(){
         if(filaVazia()){
             System.out.println("\nFila Vazia\n");
-        }
-        //String info = fim.elemento;
-        if(inicio == fim){
-            inicio = null;
-            fim = null;
         } else {
-            No atual = inicio;
-            inicio = inicio.proximo;
-            atual = null;
+            if(inicio == fim){
+                inicio = null;
+                fim = null;
+            } else {
+                No atual = inicio;
+                inicio = inicio.proximo;
+                atual = null;
+            }
+            tamanho--;
+            System.out.println("\nElemento removido\n");
+            imprimirFila();
         }
-        tamanho--;
-        System.out.println("\nElemento removido\n");
-        imprimirFila();
     }
     
     
     public void buscarFila(String elemento){
         if(filaVazia()){
             System.out.println("\nFila vazia\n");
-        }
-        No noBusca = inicio;
-        while(noBusca != null && !(noBusca.elemento.equals(elemento))){
-            noBusca = noBusca.proximo;
-        }
-        if(noBusca == null){
-            System.out.println("\nElemento " + elemento + " não encontrado\n");
         } else {
-            elemento = noBusca.elemento;
-            System.out.println("\nElemento " + elemento + " encontrado\n");
+            No noBusca = inicio;
+            while(noBusca != null && !(noBusca.elemento.equals(elemento))){
+                noBusca = noBusca.proximo;
+            }
+            if(noBusca == null){
+                System.out.println("\nElemento " + elemento + " não encontrado\n");
+            } else {
+                elemento = noBusca.elemento;
+                System.out.println("\nElemento " + elemento + " encontrado\n");
+            }
         }
     }
     
@@ -126,5 +86,17 @@ public class FilaDinamica {
             }
             System.out.println(printaFila);
         }
+    }
+    
+    //INSERIR DADO A PARTIR DO ARQUIVO
+    public void inserirElementoUsandoArquivo(String caminho, FilaDinamica fila){
+        i_fila_dinamica.ArquivoFila.InserirFinal(caminho, fila);
+        imprimirFila();
+    }
+    
+    //REMOVER DADO A PARTIR DO ARQUIVO
+    public void removerElementoUsandoArquivo(String caminho, FilaDinamica fila){
+        i_fila_dinamica.ArquivoFila.removerInicio(caminho, fila);
+        imprimirFila();
     }
 }

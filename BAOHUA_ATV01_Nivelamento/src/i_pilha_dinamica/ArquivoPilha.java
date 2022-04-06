@@ -1,6 +1,7 @@
-package i_lista_encadeada_dupla;
 
+package i_pilha_dinamica;
 
+import i_fila_dinamica.FilaDinamica;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public class Arquivo extends ListaDupla  {
+public class ArquivoPilha extends PilhaDinamica  {
       public static String Read(String Caminho){
         String conteudo = "";
         try {
@@ -37,7 +38,7 @@ public class Arquivo extends ListaDupla  {
     
       
       //Esta função irá ler o arquivo txt e cada linha irá virar uma info para a lista .
-      public static boolean Start(String Caminho,ListaDupla lista){
+      public static boolean Start(String Caminho,PilhaDinamica pilha){
         try {
             FileReader arq = new FileReader(Caminho);
             BufferedReader lerArq = new BufferedReader(arq);
@@ -53,8 +54,9 @@ public class Arquivo extends ListaDupla  {
                 }
                 
                 // irá roda todo o ArrayList e salvar cada elemento na lista
-                for(int i=0; i<salvar.size();i++){
-                    lista.inserir_lista_ordenada(i,salvar.get(i));
+                for(int i=0; i<salvar.size();i++){    
+                    pilha.inserir_pilha(salvar.get(i));
+
                     //System.out.println(salvar.get(i));
                 }
                 arq.close();
@@ -84,100 +86,11 @@ public class Arquivo extends ListaDupla  {
     }
     
     //Remove um elemnto do arquivo.txt
-    public static boolean removerOrdenado(String Caminho,ListaDupla lista,String item){
-        
-        try {
-            //Reseto a posição para usar como parametro
-            lista.setPosicao(-1);
-            int contador =0; 
-            boolean achei = false;
-            FileReader fr = new FileReader(Caminho);
-            BufferedReader br = new BufferedReader(fr);
-            String linha = br.readLine();
-            ArrayList<String> salvar = new ArrayList();
-            
-            //Roda todo arquivo.txt
-            while(linha != null){
-                // enquanto não tiver o dado que desejo remover eu salvo no ArrayList
-                 if(linha.toLowerCase().contains(item.toLowerCase())==false){
-                     salvar.add(linha);
-                     contador++;
-                 }else if(linha.contains(item)==true) {
-                     lista.remover_lista_ordenada(contador);
-                     achei=true;
-                    // String posicao = linha.split(":")[0];
-                     //lista.setPosicao(Integer.parseInt(posicao));
-                 }
-                 linha = br.readLine();
-            }
-            br.close();
-            fr.close();
-            FileWriter fw2 = new FileWriter(Caminho, true);
-            fw2.close();
-            
-            FileWriter fw = new FileWriter(Caminho);
-            BufferedWriter bw= new BufferedWriter(fw);
-            
-            //escreve no arquivo.txt sem o dado que deseja remover
-            for(int i =0; i<salvar.size();i++){
-                bw.write("Name:"+salvar.get(i).split(":")[1]);
-                bw.newLine();
-            }
-            
-            //verifica se foi encontrado o dado de remoção
-            if(!achei){  
-                System.out.println("Dado não encontrado");
-             }
-
-            bw.close();
-            fw.close();                            
-       }catch(IOException ex){
-       
-       }             
-     return true;
-    }
     
     
-     public static boolean removerInicio(String Caminho,ListaDupla lista){
+     public static boolean remover(String Caminho,PilhaDinamica pilha){
         
           try {
-            //Reseto a posição para usar como parametro
-            
-            FileReader fr = new FileReader(Caminho);
-            BufferedReader br = new BufferedReader(fr);
-            String linha = br.readLine();
-            ArrayList<String> salvar = new ArrayList();
-            
-            //Roda todo arquivo.txt
-            while(linha != null){
-                salvar.add(linha);
-                linha = br.readLine();
-            }
-            br.close();
-            fr.close();
-            FileWriter fw2 = new FileWriter(Caminho, true);
-            fw2.close();
-            
-            FileWriter fw = new FileWriter(Caminho);
-            BufferedWriter bw= new BufferedWriter(fw);
-            
-            //escreve no arquivo.txt sem o dado que deseja remover
-            for(int i =1; i<salvar.size();i++){
-                bw.write("Name:"+salvar.get(i).split(":")[1]);
-                bw.newLine();
-            }
-            bw.close();
-            fw.close();
-            lista.remover_lista_inicio();
-            return true;
-       }catch(IOException ex){
-       
-       }             
-     return true;
-    }
-         
-         public static boolean removerFinal(String Caminho,ListaDupla lista){
-        try {
             //Reseto a posição para usar como parametro
             
             FileReader fr = new FileReader(Caminho);
@@ -205,57 +118,15 @@ public class Arquivo extends ListaDupla  {
             }
             bw.close();
             fw.close();
-            lista.remover_lista_final();
+            pilha.remover_pilha();
             return true;
        }catch(IOException ex){
        
        }             
      return true;
     }
-        
-    
-    
-     public static boolean inserirDadoFinal(String Caminho,String dado){
-        
-        try {
-            FileReader fr = new FileReader(Caminho);
-            BufferedReader br = new BufferedReader(fr);
-            
-            String linha = br.readLine();
-            ArrayList<String> salvar = new ArrayList();
-            
-            while(linha != null){
-                 salvar.add(linha);  
-                 linha = br.readLine();
-            }
-            br.close();
-            fr.close();
-            
-            //Limpa o arquivo txt
-            FileWriter fw2 = new FileWriter(Caminho, true);
-            fw2.close();
-            
-            //inicia o buffer
-            FileWriter fw = new FileWriter(Caminho);
-            BufferedWriter bw= new BufferedWriter(fw);
-            
-            //faz a copia do arquivo original
-            for(int i =0; i<(salvar.size());i++){
-                bw.write("Name:"+salvar.get(i).split(":")[1]);
-                bw.newLine();
-            }
-            
-            //adiciona o novo dado
-            bw.write("Name:"+dado);          
-            bw.close();
-            fw.close();
-            return true;
-       }catch(IOException ex){
-       
-       }             
-     return true;
-    
-    }
+         
+
          public static boolean inserirDadoInicio(String Caminho,String dado){
         
         try {
@@ -289,6 +160,7 @@ public class Arquivo extends ListaDupla  {
                 bw.write("Name:"+salvar.get(i).split(":")[1]);
                 bw.newLine();
             }
+            
             
       
             bw.close();
